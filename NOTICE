@@ -1,0 +1,24 @@
+This application uses Open Source components.
+
+You can find the source code of these open source projects along with license
+information below.
+
+--------------------------------------------------------------------------------
+ZXING
+--------------------------------------------------------------------------------
+Project: ZXing ("Zebra Crossing") https://github.com/zxing/zxing
+License (Apache License Version 2.0): http://www.apache.org/licenses/LICENSE-2.0
+
+
+--------------------------------------------------------------------------------
+APACHE PDFBOX
+--------------------------------------------------------------------------------
+Project: Apache PDFBox https://pdfbox.apache.org/
+License (Apache License Version 2.0): http://www.apache.org/licenses/LICENSE-2.0
+
+
+--------------------------------------------------------------------------------
+SPRING FRAMEWORK, SPRING BOOT AND FURTHER SPRING LIBRARIES
+--------------------------------------------------------------------------------
+Project: spring.io https://spring.io/
+License (Apache License Version 2.0): http://www.apache.org/licenses/LICENSE-2.0

@@ -14,29 +14,16 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.file.Path;
 import java.util.*;
 
 @Service
 public class Pdf417ReaderService {
 
     private final static Logger LOG = LoggerFactory.getLogger(Pdf417ReaderService.class);
-
-    public String readPdf417BarcodeFromPdfFile(Path pdfFile) {
-        try {
-            byte[] bytes = FileCopyUtils.copyToByteArray(pdfFile.toFile());
-            return readPdf417BarcodeFromPdf(bytes);
-        } catch (IOException e) {
-            LOG.error("error while reading pdf", e);
-            throw new IllegalArgumentException("error while reading pdf");
-        }
-    }
 
     public String readPdf417BarcodeFromPdf(byte[] pdfData) {
         StringWriter result = new StringWriter();
@@ -57,15 +44,7 @@ public class Pdf417ReaderService {
         }
     }
 
-    public String readPdf417BarcodeFromImage(Path imageFile) throws IOException {
-        BufferedImage image = ImageIO.read(imageFile.toFile());
-        if (image == null) {
-            throw new IllegalArgumentException("image not readable");
-        }
-        return readPdf417BarcodeFromImage(image);
-    }
-
-    private String readPdf417BarcodeFromImage(BufferedImage image) {
+    public String readPdf417BarcodeFromImage(BufferedImage image) {
         StringWriter result = new StringWriter();
         MultipleBarcodeReader barcodeReader = new PDF417Reader();
         LuminanceSource source = new BufferedImageLuminanceSource(image);

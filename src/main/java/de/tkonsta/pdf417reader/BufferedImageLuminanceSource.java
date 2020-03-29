@@ -24,6 +24,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 
 /**
+ * class was copied from ZXing unit test
+ *
  * This LuminanceSource implementation is meant for J2SE clients and our blackbox unit tests.
  *
  * @author dswitkin@google.com (Daniel Switkin)
@@ -133,6 +135,7 @@ public final class BufferedImageLuminanceSource extends LuminanceSource {
     return true;
   }
 
+  @SuppressWarnings("SuspiciousNameCombination")
   @Override
   public LuminanceSource rotateCounterClockwise() {
     int sourceWidth = image.getWidth();

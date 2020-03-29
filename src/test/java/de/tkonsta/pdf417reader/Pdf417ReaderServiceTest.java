@@ -1,12 +1,14 @@
 package de.tkonsta.pdf417reader;
 
 import ch.qos.logback.classic.Level;
-import com.google.zxing.NotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.FileCopyUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -27,29 +29,34 @@ class Pdf417ReaderServiceTest {
     }
 
     @Test
-    void readPdf417BarcodeFromPdf() {
+    void readPdf417BarcodeFromPdf() throws IOException {
         Path pdf = Path.of("src", "test", "resources", "pdf417-macro.pdf");
-        String resultFromService = service.readPdf417BarcodeFromPdfFile(pdf);
+        byte[] bytes = FileCopyUtils.copyToByteArray(pdf.toFile());
+        String resultFromService = service.readPdf417BarcodeFromPdf(bytes);
         assertTrue(resultFromService.startsWith("barcode 1"));
         assertTrue(resultFromService.endsWith("barcode 2 end"));
     }
 
     @Test
-    void readPdf417BarcodeFromPdf_not_a_pdf() {
+    void readPdf417BarcodeFromPdf_not_a_pdf() throws IOException {
         Path pdf = Path.of("src", "test", "resources", "pdf417-macro.gif");
-        assertThrows(IllegalArgumentException.class, () -> service.readPdf417BarcodeFromPdfFile(pdf));
+        byte[] bytes = FileCopyUtils.copyToByteArray(pdf.toFile());
+        assertThrows(IllegalArgumentException.class, () -> service.readPdf417BarcodeFromPdf(bytes));
     }
 
     @Test
     void readPdf417BarcodeFromImage() throws IOException {
-        Path image = Path.of("src", "test", "resources", "pdf417-macro.gif");
+        Path imageFile = Path.of("src", "test", "resources", "pdf417-macro.gif");
+        BufferedImage image = ImageIO.read(imageFile.toFile());
         String resultFromService = service.readPdf417BarcodeFromImage(image);
         assertTrue(resultFromService.startsWith("barcode 1"));
         assertTrue(resultFromService.endsWith("barcode 2 end"));
     }
+
     @Test
-    void readPdf417BarcodeFromImage_not_an_image() {
-        Path image = Path.of("src", "test", "resources", "pdf417-macro.pdf");
-        assertThrows(IllegalArgumentException.class, () -> service.readPdf417BarcodeFromImage(image));
+    void readPdf417BarcodeFromImage_not_an_image() throws IOException {
+        Path imageFile = Path.of("src", "test", "resources", "pdf417-macro.pdf");
+        BufferedImage image = ImageIO.read(imageFile.toFile());
+        assertThrows(NullPointerException.class, () -> service.readPdf417BarcodeFromImage(image));
     }
 }
