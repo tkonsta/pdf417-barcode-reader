@@ -2,7 +2,6 @@ package de.tkonsta.pdf417reader;
 
 import ch.qos.logback.classic.Level;
 import com.google.zxing.NotFoundException;
-import net.bytebuddy.pool.TypePool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ class Pdf417ReaderServiceTest {
     @Test
     void readPdf417BarcodeFromPdf() {
         Path pdf = Path.of("src", "test", "resources", "pdf417-macro.pdf");
-        String resultFromService = service.readPdf417BarcodeFromPdf(pdf);
+        String resultFromService = service.readPdf417BarcodeFromPdfFile(pdf);
         assertTrue(resultFromService.startsWith("barcode 1"));
         assertTrue(resultFromService.endsWith("barcode 2 end"));
     }
@@ -38,23 +37,19 @@ class Pdf417ReaderServiceTest {
     @Test
     void readPdf417BarcodeFromPdf_not_a_pdf() {
         Path pdf = Path.of("src", "test", "resources", "pdf417-macro.gif");
-        assertThrows(IllegalArgumentException.class, () -> {
-            service.readPdf417BarcodeFromPdf(pdf);
-        });
+        assertThrows(IllegalArgumentException.class, () -> service.readPdf417BarcodeFromPdfFile(pdf));
     }
 
     @Test
-    void readPdf417BarcodeFromImage() throws IOException, NotFoundException {
+    void readPdf417BarcodeFromImage() throws IOException {
         Path image = Path.of("src", "test", "resources", "pdf417-macro.gif");
         String resultFromService = service.readPdf417BarcodeFromImage(image);
         assertTrue(resultFromService.startsWith("barcode 1"));
         assertTrue(resultFromService.endsWith("barcode 2 end"));
     }
     @Test
-    void readPdf417BarcodeFromImage_not_an_image() throws IOException, NotFoundException {
+    void readPdf417BarcodeFromImage_not_an_image() {
         Path image = Path.of("src", "test", "resources", "pdf417-macro.pdf");
-        assertThrows(IllegalArgumentException.class, () -> {
-            service.readPdf417BarcodeFromImage(image);
-        });
+        assertThrows(IllegalArgumentException.class, () -> service.readPdf417BarcodeFromImage(image));
     }
 }

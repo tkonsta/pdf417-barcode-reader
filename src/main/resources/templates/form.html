@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF 417 Barcode reader</title>
+</head>
+<body>
+<h1>Barcode Reader</h1>
+
+<h3>Please chose PDF file which contains one or multiple PDF417 barcodes</h3>
+
+<form action="" th:action="@{/result/}" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file"> <br>
+    <button type="submit">Submit</button>
+</form>
+
+<p th:if="${invalidFile}" style="color:red">The file you have uploaded could not be read.</p>
+
+</body>
+</html>
