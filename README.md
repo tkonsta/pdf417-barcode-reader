@@ -1,7 +1,6 @@
 # pdf417-barcode-reader
-Reads PDF417 barcodes from pdf or image and output the result
+A small webapp which reads PDF417 barcodes from a pdf file and outputs the barcode contents as a string
 
-based on the ZXing ("Zebra Crossing") barcode scanning library (see https://github.com/zxing/zxing) reads 
-a pdf or an image and outputs the barcode content as String
+The webapp uses the ZXing ("Zebra Crossing") barcode scanning library (see https://github.com/zxing/zxing) to read the barcodes and  Apache pdfbox to work with PDF documents (see https://pdfbox.apache.org/).
 
-For the pdf reading Apache pdfbox is used (see https://pdfbox.apache.org/)
+It can be run either standalone as jar (with java -jar) or as a Docker container.
