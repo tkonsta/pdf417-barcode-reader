@@ -33,3 +33,8 @@ jobs:
       with:
         name: jar-package
         path: staging
+    - name: Publish Image
+      uses: matootie/github-docker@v2.2.2
+      with:
+        accessToken: ${{ secrets.GITHUB_TOKEN }}
+        imageTag: 'latest'
