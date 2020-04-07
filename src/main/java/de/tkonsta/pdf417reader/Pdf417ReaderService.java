@@ -1,29 +1,38 @@
 package de.tkonsta.pdf417reader;
 
-import com.google.zxing.*;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.Result;
+import com.google.zxing.ResultMetadataType;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.multi.MultipleBarcodeReader;
 import com.google.zxing.pdf417.PDF417Reader;
 import com.google.zxing.pdf417.PDF417ResultMetadata;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import org.apache.pdfbox.io.RandomAccessBuffer;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.rendering.ImageType;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.*;
-
 @Service
 public class Pdf417ReaderService {
 
-    private final static Logger LOG = LoggerFactory.getLogger(Pdf417ReaderService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Pdf417ReaderService.class);
 
     public String readPdf417BarcodeFromPdf(byte[] pdfData) {
         StringWriter result = new StringWriter();
@@ -31,15 +40,15 @@ public class Pdf417ReaderService {
             checkIfValidPdfOrThrowException(pdfData);
             PDDocument pdfDocument = PDDocument.load(pdfData);
             PDFRenderer pdfRenderer = new PDFRenderer(pdfDocument);
-            int pageCounter = 0;
-            for (PDPage page : pdfDocument.getPages()) {
-                BufferedImage bim = pdfRenderer.renderImageWithDPI(pageCounter++, 300, ImageType.RGB);
+            int pageCount = pdfDocument.getPages().getCount();
+            for (int i = 0; i < pageCount; i++) {
+                BufferedImage bim = pdfRenderer.renderImageWithDPI(i, 300, ImageType.RGB);
                 result.append(readPdf417BarcodeFromImage(bim));
             }
             pdfDocument.close();
             return result.toString();
         } catch (IOException e) {
-            LOG.error("error while reading pdf", e);
+            LOG.debug("error while reading pdf", e);
             throw new IllegalArgumentException("error while reading pdf");
         }
     }
@@ -50,7 +59,7 @@ public class Pdf417ReaderService {
         LuminanceSource source = new BufferedImageLuminanceSource(image);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         Map<DecodeHintType, Object> hints = new EnumMap<>(DecodeHintType.class);
-        //hints.put(DecodeHintType.TRY_HARDER, Boolean.TRUE);
+        hints.put(DecodeHintType.TRY_HARDER, Boolean.FALSE);
         List<Result> results = new ArrayList<>();
         try {
             results.addAll(Arrays.asList(barcodeReader.decodeMultiple(bitmap, hints)));
@@ -64,7 +73,7 @@ public class Pdf417ReaderService {
 
     private static PDF417ResultMetadata getMeta(Result result) {
         return result.getResultMetadata() == null ? null : (PDF417ResultMetadata) result.getResultMetadata().get(
-                ResultMetadataType.PDF417_EXTRA_METADATA);
+            ResultMetadataType.PDF417_EXTRA_METADATA);
     }
 
     private void checkIfValidPdfOrThrowException(byte[] pdfData) throws IOException {

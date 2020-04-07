@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html th:lang="${#locale.language}" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>PDF 417 Barcode reader</title>
+    <title th:text="#{title}"></title>
 </head>
 <body>
-<h1>Result</h1>
+<h1 th:text="#{result.headline}"></h1>
 
-<h3>Below you find the text which is encoded in the barcode</h3>
+<h3 th:if="${content}" th:text="#{result.text}"></h3>
+<p  th:if="${content}" th:text="${content}" style="font-family: 'Courier New',monospace"></p>
 
-<p th:text="${result}">result</p>
+<p th:if="${invalidFile}" style="color:red" th:text="#{result.unreadable}"></p>
+<p th:if="${noBarcodeContent}" style="color:red" th:text="#{result.no.barcode.content}"></p>
 
 </body>
 </html>
