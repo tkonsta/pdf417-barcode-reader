@@ -5,7 +5,8 @@ name: Release Jar file and Docker image for Tag
 
 on:
   push:
-    tags: *
+    tags:
+      - '*'
 
 jobs:
   build:
