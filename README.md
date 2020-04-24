@@ -1,4 +1,7 @@
 # pdf417-barcode-reader
+
+[![Main](https://github.com/tkonsta/pdf417-barcode-reader/workflows/Nightly/badge.svg)](https://github.com/tkonsta/pdf417-barcode-reader/actions?query=workflow%3ANightly)
+
 A small webapp which reads PDF417 barcodes from a pdf file and outputs the barcode contents as a string
 
 The webapp uses the ZXing ("Zebra Crossing") barcode scanning library (see https://github.com/zxing/zxing) to read the barcodes and  Apache pdfbox to work with PDF documents (see https://pdfbox.apache.org/).
