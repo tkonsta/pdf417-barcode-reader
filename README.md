@@ -8,7 +8,7 @@ The webapp uses the ZXing ("Zebra Crossing") barcode scanning library (see https
 
 The web aplication can be run standalone and started with the following command:
  
-    java -jar pdf417-reader-1.1.0.jar
+    java -jar pdf417-reader-1.1.3.jar
 
 The released jar files can be found under releases in Github.
   
