@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="#{title}"></title>
+  <meta charset="UTF-8">
+  <title th:text="#{title}"></title>
 </head>
 <body>
 <h1 th:text="#{form.headline}">B</h1>
@@ -10,8 +10,8 @@
 <h3 th:text="#{form.text}"></h3>
 
 <form action="" th:action="@{/result/}" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file"> <br>
-    <button type="submit" th:text="#{form.submit}"></button>
+  <input type="file" name="file"> <br>
+  <button type="submit" th:text="#{form.submit}"></button>
 </form>
 
 </body>

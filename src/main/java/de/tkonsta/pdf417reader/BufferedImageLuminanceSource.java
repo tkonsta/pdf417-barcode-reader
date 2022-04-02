@@ -25,7 +25,7 @@ import java.awt.image.WritableRaster;
 
 /**
  * class was copied from ZXing unit test
- *
+ * <p>
  * This LuminanceSource implementation is meant for J2SE clients and our blackbox unit tests.
  *
  * @author dswitkin@google.com (Daniel Switkin)

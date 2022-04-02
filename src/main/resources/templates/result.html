@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html th:lang="${#locale.language}" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="#{title}"></title>
+  <meta charset="UTF-8">
+  <title th:text="#{title}"></title>
 </head>
 <body>
 <h1 th:text="#{result.headline}"></h1>
 
 <h3 th:if="${content}" th:text="#{result.text}"></h3>
-<p  th:if="${content}" th:text="${content}" style="font-family: 'Courier New',monospace"></p>
+<p th:if="${content}" th:text="${content}" style="font-family: 'Courier New',monospace"></p>
 
 <p th:if="${invalidFile}" style="color:red" th:text="#{result.unreadable}"></p>
 <p th:if="${noBarcodeContent}" style="color:red" th:text="#{result.no.barcode.content}"></p>

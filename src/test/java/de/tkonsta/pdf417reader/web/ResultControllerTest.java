@@ -1,12 +1,6 @@
 package de.tkonsta.pdf417reader.web;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import de.tkonsta.pdf417reader.Pdf417ReaderService;
-import java.util.Map;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -14,6 +8,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Map;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class ResultControllerTest {
 
@@ -33,10 +34,10 @@ class ResultControllerTest {
   @ParameterizedTest
   @MethodSource("createUploadFileParameters")
   void uploadFile(Pdf417ReaderService pdf417ReaderService,
-      MultipartFile file,
-      Boolean invalidFile,
-      Boolean noBarcodeContent,
-      String content) {
+                  MultipartFile file,
+                  Boolean invalidFile,
+                  Boolean noBarcodeContent,
+                  String content) {
 
     ResultController resultController = new ResultController(pdf417ReaderService);
     ModelAndView modelAndView = resultController.uploadFile(file);
@@ -75,10 +76,10 @@ class ResultControllerTest {
     when(pdf417ReaderServiceMockException.readPdf417BarcodeFromPdf(any())).thenThrow(new RuntimeException());
 
     return Stream.of(
-        Arguments.of(pdf417ReaderServiceMockDefault, multipartFileMockEmpty, Boolean.TRUE, Boolean.FALSE, null),
-        Arguments.of(pdf417ReaderServiceMockEmpty, multipartFileMockDefault, Boolean.FALSE, Boolean.TRUE, null),
-        Arguments.of(pdf417ReaderServiceMockDefault, multipartFileMockDefault, Boolean.FALSE, Boolean.FALSE, DEFAULT_BARCODE_CONTENT),
-        Arguments.of(pdf417ReaderServiceMockException, multipartFileMockDefault, Boolean.TRUE, Boolean.FALSE, null)
+      Arguments.of(pdf417ReaderServiceMockDefault, multipartFileMockEmpty, Boolean.TRUE, Boolean.FALSE, null),
+      Arguments.of(pdf417ReaderServiceMockEmpty, multipartFileMockDefault, Boolean.FALSE, Boolean.TRUE, null),
+      Arguments.of(pdf417ReaderServiceMockDefault, multipartFileMockDefault, Boolean.FALSE, Boolean.FALSE, DEFAULT_BARCODE_CONTENT),
+      Arguments.of(pdf417ReaderServiceMockException, multipartFileMockDefault, Boolean.TRUE, Boolean.FALSE, null)
     );
   }
 }
