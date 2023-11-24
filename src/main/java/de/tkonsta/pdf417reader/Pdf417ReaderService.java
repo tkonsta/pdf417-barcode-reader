@@ -5,7 +5,8 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.multi.MultipleBarcodeReader;
 import com.google.zxing.pdf417.PDF417Reader;
 import com.google.zxing.pdf417.PDF417ResultMetadata;
-import org.apache.pdfbox.io.RandomAccessBuffer;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBuffer;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.ImageType;
@@ -28,7 +29,7 @@ public class Pdf417ReaderService {
     StringWriter result = new StringWriter();
     try {
       checkIfValidPdfOrThrowException(pdfData);
-      PDDocument pdfDocument = PDDocument.load(pdfData);
+      PDDocument pdfDocument = Loader.loadPDF(pdfData);
       PDFRenderer pdfRenderer = new PDFRenderer(pdfDocument);
       int pageCount = pdfDocument.getPages().getCount();
       for (int i = 0; i < pageCount; i++) {
@@ -67,9 +68,13 @@ public class Pdf417ReaderService {
   }
 
   private void checkIfValidPdfOrThrowException(byte[] pdfData) throws IOException {
-    RandomAccessBuffer randomAccessBuffer = new RandomAccessBuffer(pdfData);
+    RandomAccessReadBuffer randomAccessBuffer = new RandomAccessReadBuffer(pdfData);
     PDFParser parser = new PDFParser(randomAccessBuffer);
-    parser.setLenient(false);
-    parser.parse();
+    try (PDDocument document = parser.parse(true)) {
+      if (document != null) {
+        document.close();
+      }
+    };
+
   }
 }
