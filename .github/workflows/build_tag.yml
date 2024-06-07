@@ -14,26 +14,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4.1.5
     - name: Set up JDK 17
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v4.2.1
       with:
         java-version: 17
     - name: Build with Maven
       run: mvn -B clean package
     - name: Cache Maven packages
-      uses: actions/cache@v1
+      uses: actions/cache@v4.0.2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
     - run: mkdir staging && cp target/*.jar staging
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4.3.3
       with:
         name: jar-package
         path: staging
     - name: Push to Docker Hub
-      uses: docker/build-push-action@v1
+      uses: docker/build-push-action@v5.3.0
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}

@@ -13,17 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4.1.5
       with:
         ref: main
     - name: Set up JDK 17
-      uses: actions/setup-java@v1
+      uses: actions/setup-java@v4.2.1
       with:
         java-version: 17
     - name: Build with Maven
       run: mvn -B clean package
     - name: Cache Maven packages
-      uses: actions/cache@v1
+      uses: actions/cache@v4.0.2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
